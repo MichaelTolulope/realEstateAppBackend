@@ -68,6 +68,10 @@ export const verifyEmail = async (req,res)=>{
     
 
     if(isValid){
+        isValid.verificationCode = undefined
+        isValid.verificationExpires = undefined
+        isValid.isVerified = true
+        isValid.save()
         return res.status(200)
         .send({
             message: "Email verification successfull!"
@@ -82,6 +86,21 @@ export const verifyEmail = async (req,res)=>{
      console.log(error.message);
      
    }
+}
+export const resendVerificationEmail = async (req,res)=>{
+    const {email} = req.body;
+
+    const user = await userModel.findOne({email})
+
+    const verificationCode =  Math.floor(100000 + Math.random() * 900000);
+
+    user.verificationCode = verificationCode;
+    user.verificationExpires = Date.now() + 5 * 60 * 10000;
+
+    user.save();
+
+    sendVerificationEmail(email, user.verificationCode)
+    res.status(200).send({message:`Verification code resent to ${email}!`})
 }
 
 export const login = async (req, res) => {

@@ -1,6 +1,6 @@
 import express from 'express'
 import { getAllUsers, getOneUser, getUserProfile } from '../controllers/user.controller.js'
-import { login, logout, signup, verifyEmail } from '../controllers/auth.controller.js'
+import { login, logout, resendVerificationEmail, signup, verifyEmail } from '../controllers/auth.controller.js'
 import protection from '../middlewares/protectRoute.js'
 const router = express.Router()
 
@@ -8,6 +8,7 @@ const router = express.Router()
 //auth routes
 router.post("/signup", signup)
 router.post("/verify-email", verifyEmail)
+router.post("/resend-verification-email", resendVerificationEmail)
 router.post("/login", login)
 router.post("/logout",logout)
 
