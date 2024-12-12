@@ -1,15 +1,20 @@
 import express from 'express'
-import { getAllUsers, getOneUser } from '../controllers/user.controller.js'
-import { login, signup } from '../controllers/auth.controller.js'
+import { getAllUsers, getOneUser, getUserProfile } from '../controllers/user.controller.js'
+import { login, logout, signup, verifyEmail } from '../controllers/auth.controller.js'
+import protection from '../middlewares/protectRoute.js'
 const router = express.Router()
 
 
 //auth routes
 router.post("/signup", signup)
+router.post("/verify-email", verifyEmail)
 router.post("/login", login)
+router.post("/logout",logout)
 
 router.get("/get-all", getAllUsers)
-router.post("/get-one", getOneUser)
+router.post("/get-one/:id", getOneUser)
+
+router.get("/get-user-profile",protection("user"), getUserProfile)
 
 
 export default router;

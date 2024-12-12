@@ -27,6 +27,8 @@ const userSchema = new mongoose.Schema({
         type:Date,
         default: Date.now
     },
+    verificationCode: String,
+    verificationExpires: Date
     // likedProperties: []
 
 },{timestamps:true})
